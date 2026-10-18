@@ -24,4 +24,4 @@ jobs:
           git config user.name "collector-bot"
           git config user.email "collector-bot@users.noreply.github.com"
           git add data
-          git diff --cached --quiet && echo "no change" || (git commit -m "data $(date -u +%FT%H:%MZ)" && git push)
+          git diff --cached --quiet && echo "no change" || (git commit -m "data $(date -u +%FT%H:%MZ)" && git pull --rebase -q && git push)
