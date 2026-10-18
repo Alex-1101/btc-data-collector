@@ -1,2 +1,1 @@
-ts,funding_rate,funding_rate_pred,mark,index,open_interest,vol24h
-1792337477,1.838273700666652,1.4211070568813062,80998.74838598132,80987.75,2273.9977,2408.5486
+ts,funding_rate_abs,funding_rate_abs_pred,funding_rate_rel,funding_rate_rel_pred,mark,index,open_interest,vol24h

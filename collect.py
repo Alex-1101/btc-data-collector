@@ -94,9 +94,10 @@ def kraken_funding():
         j = get("https://futures.kraken.com/derivatives/api/v3/tickers")
         t = next(x for x in j["tickers"] if x.get("symbol", "").upper() == "PF_XBTUSD")
         now = int(datetime.now(timezone.utc).timestamp())
-        row = [now, t.get("fundingRate"), t.get("fundingRatePrediction"), t.get("markPrice"), t.get("indexPrice"),
-               t.get("openInterest"), t.get("vol24h")]
-        n = append_rows(DATA / "funding.csv", ["ts", "funding_rate", "funding_rate_pred", "mark", "index", "open_interest", "vol24h"], [row])
+        row = [now, t.get("fundingRate"), t.get("fundingRatePrediction"), t.get("relativeFundingRate"),
+               t.get("relativeFundingRatePrediction"), t.get("markPrice"), t.get("indexPrice"), t.get("openInterest"), t.get("vol24h")]
+        n = append_rows(DATA / "funding.csv", ["ts", "funding_rate_abs", "funding_rate_abs_pred", "funding_rate_rel", "funding_rate_rel_pred",
+                                               "mark", "index", "open_interest", "vol24h"], [row])
         status["funding"] = f"ok +{n}"
     except Exception as e:
         status["funding"] = f"fail {e}"
