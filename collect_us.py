@@ -1,6 +1,6 @@
 """美股日线采集器（GitHub Actions，每个交易日收盘后跑两次）。
 
-数据源：Stooq 免费 CSV（无需 key，一次给全部历史）；失败时退回 Yahoo Finance（yfinance）。
+数据源：Yahoo Finance（yfinance，复权价，全部历史）；失败时退回 Stooq 免费 CSV。
 每只标的一个文件：data/us/<TICKER>.csv，列：date,open,high,low,close,volume（已复权收盘价对齐）。
 状态写到 data/us/heartbeat.json。
 """
@@ -87,16 +87,16 @@ def main():
     for symbol, name in todo:
         try:
             try:
-                rows = stooq(symbol)
-                src = "stooq"
+                rows = yahoo(symbol)          # Yahoo 为主（Stooq 对云端 IP 返回人机验证页）
+                src = "yahoo"
             except Exception as e1:
-                rows = yahoo(symbol)
-                src = f"yahoo (stooq: {e1})"
+                rows = stooq(symbol)
+                src = f"stooq (yahoo: {e1})"
             added, last = write(name, rows)
             status[name] = f"ok {src} +{added} last={last}"
         except Exception as e:
             status[name] = f"fail {e}"
-        time.sleep(1.0)   # 对 Stooq 客气一点
+        time.sleep(0.5)
     hb = {"ran_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "sources": status}
     (DATA / "heartbeat.json").write_text(json.dumps(hb, indent=1))
     print(json.dumps(hb, indent=1, ensure_ascii=False))
