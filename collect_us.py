@@ -29,6 +29,10 @@ TICKERS = [
     "XLB", "XLE", "XLF", "XLI", "XLK", "XLP", "XLU", "XLV", "XLY", "XLC", "XLRE",
     # 大盘股（第二期个股策略用）
     "AAPL", "MSFT", "NVDA", "AMZN", "GOOGL", "META", "TSLA", "BRK-B",
+    # 加密（Yahoo 复合价，2014 年起，给比特币实验室做长历史回测）
+    "BTC-USD", "ETH-USD",
+    # 杠杆 ETF 真实净值（和合成的对照）
+    "UPRO", "TQQQ", "TMF", "SQQQ", "SPXU",
 ]
 INDEXES = {"^VIX": "VIX"}      # Stooq 符号 -> 文件名
 status: dict[str, str] = {}
